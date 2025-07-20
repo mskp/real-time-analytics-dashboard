@@ -162,26 +162,30 @@ For a comprehensive demo, follow these steps:
 ## Project Structure
 
 ```
-├── client/               # React frontend
-│   ├── components/       # React components
-│   ├── hooks/            # Custom React hooks
-│   ├── types/            # TypeScript types
-│   ├── public/           # Static assets
-│   ├── .env              # Client environment variables
-│   ├── .env.example      # Client environment template
-│   ├── package.json      # Client dependencies
-│   ├── vite.config.ts    # Vite configuration
-│   └── main.tsx          # Entry point
-├── server/               # Backend source
-│   ├── services/         # Business logic
-│   ├── models/           # Database models
-│   ├── .env              # Server environment variables
-│   ├── .env.example      # Server environment template
-│   ├── package.json      # Server dependencies
-│   ├── tsconfig.json     # TypeScript config
-│   └── app.ts            # Express server
-├── package.json          # Root package with scripts
-└── dist/                 # Build output
+├── client/                 # React frontend
+│   ├── src/                # Source code
+│   │   ├── components/     # React components
+│   │   ├── hooks/          # Custom React hooks
+│   │   ├── lib/            # Shared utilities and types
+│   │   ├── globals.css     # Global styles
+│   │   └── main.tsx        # Entry point
+│   ├── index.html          # HTML template
+│   ├── package.json        # Client dependencies
+│   ├── vite.config.ts      # Vite configuration
+│   └── tsconfig*.json      # TypeScript configs
+├── server/                 # Backend source
+│   ├── src/                # Source code
+│   │   ├── services/       # Business logic and WebSocket handling
+│   │   ├── models/         # Database models
+│   │   ├── routes/         # API routes
+│   │   ├── middleware/     # Express middleware
+│   │   ├── types/          # TypeScript types
+│   │   ├── scripts/        # Utility scripts (e.g., seed)
+│   │   └── app.ts          # Express server entry point
+│   ├── package.json        # Server dependencies
+│   └── tsconfig.json       # TypeScript config
+├── package.json            # Root package with scripts
+└── dist/                   # Build output
 ```
 
 ## Contributing
