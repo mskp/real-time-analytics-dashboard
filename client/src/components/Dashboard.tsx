@@ -24,7 +24,6 @@ const Dashboard: React.FC = () => {
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [currentFilters, setCurrentFilters] = useState<FilterType>({})
   const [alerts, setAlerts] = useState<Alert[]>([])
-  const [country, setCountry] = useState<string>("unknown")
 
   const { connectionStatus, dashboardCount, events, sessions, stats, sendMessage } = useWebSocket()
 
@@ -33,16 +32,18 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const sessionId = getSessionId()
     
+    let country = "unknown";
+
     const init = async () => {
       loadInitialData()
+
       
       // Try to fetch the country first
       try {
         const res = await fetch("https://ipapi.co/json/")
         const data = await res.json()
-        setCountry(data.country_name)
-      } catch {
-        setCountry("unknown")
+        country = data.country_name
+      } catch {  
       } finally {
         // Send the pageview event with whatever country value we have
         await fetch(`${API_BASE_URL}/api/events`, {
@@ -83,7 +84,7 @@ const Dashboard: React.FC = () => {
         }),
       })
     }
-  }, [loadInitialData, country])
+  }, [loadInitialData])
 
   const handleFilterChange = useCallback(
     (filters: FilterType) => {
