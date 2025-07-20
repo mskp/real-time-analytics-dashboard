@@ -17,7 +17,7 @@ export const useWebSocket = () => {
 
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectAttemptsRef = useRef(0)
-  const maxReconnectAttempts = 5
+  const maxReconnectAttempts = 3
 
   const playNotificationSound = useCallback(() => {
     try {
