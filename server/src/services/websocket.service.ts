@@ -153,10 +153,6 @@ export class WebSocketService {
         }
         break
 
-      case "track_dashboard_action":
-        console.log(`Dashboard action: ${data?.action}`, data?.details)
-        break
-
       default:
         console.log("Unknown message type:", type)
     }
