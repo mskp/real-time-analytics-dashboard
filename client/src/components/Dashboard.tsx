@@ -28,37 +28,47 @@ const Dashboard: React.FC = () => {
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [country, setCountry] = useState<string>("unknown")
 
-  useEffect(() => {
-    fetch("https://ipapi.co/json/")
-      .then((res) => res.json())
-      .then((data) => setCountry(data.country_name))
-      .catch(() => setCountry("unknown"))
-  }, [])
-
   const { connectionStatus, dashboardCount, events, sessions, stats, sendMessage } = useWebSocket()
 
   const { loadInitialData } = useAnalytics()
 
   useEffect(() => {
-    loadInitialData()
     const sessionId = getSessionId()
-    fetch(`${API_BASE_URL}/api/events`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId,
-        type: "pageview",
-        page: window.location.pathname,
-        country,
-        timestamp: new Date().toISOString(),
-        metadata: {
-          device: navigator.userAgent,
-          referrer: document.referrer,
-        },
-      }),
-    })
+    
+    const init = async () => {
+      loadInitialData()
+      
+      // Try to fetch the country first
+      try {
+        const res = await fetch("https://ipapi.co/json/")
+        const data = await res.json()
+        setCountry(data.country_name)
+      } catch {
+        setCountry("unknown")
+      } finally {
+        // Send the pageview event with whatever country value we have
+        await fetch(`${API_BASE_URL}/api/events`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId,
+            type: "pageview",
+            page: window.location.pathname,
+            country,
+            timestamp: new Date().toISOString(),
+            metadata: {
+              device: navigator.userAgent,
+              referrer: document.referrer,
+            },
+          }),
+        })
+      }
+    }
+    
+    init()
 
     return () => {
+      // Always send the session_end event with current country value
       fetch(`${API_BASE_URL}/api/events`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
