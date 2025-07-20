@@ -222,16 +222,6 @@ const SessionDetailsModal: React.FC<SessionDetailsModalProps> = ({ session, isOp
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="bg-slate-800/50 px-4 sm:px-6 py-4 border-t border-slate-600/30 flex justify-end flex-shrink-0">
-          <button
-            onClick={onClose}
-            className="px-4 sm:px-6 py-2 sm:py-3 bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-xl font-medium transition-all duration-200 border border-slate-600/30 hover:border-slate-500/50 text-sm sm:text-base"
-          >
-            Close
-          </button>
-        </div>
       </div>
     </div>
   )
